@@ -43,6 +43,7 @@ namespace AutomationTestStore.Pages
         public By TxtPriceItem(string item) { return By.XPath(string.Format("//div//a[text()='{0}']//parent::div//parent::div//following-sibling::div//div[@class='oneprice']", item)); }
         public By SortSelectOption() { return By.Id("sort"); }
         public By BtnAddToCartOnPage(string item, string page) { return By.XPath(string.Format("//span[@class='maintext' and text()='{0}']//following::div//a[text()='{1}']//parent::div//parent::div//following-sibling::div//a", page, item)); }
+        public By DropdownCart() { return By.XPath("//li[@class='dropdown hover open']"); }
         #endregion
 
         #region General action methods
@@ -63,7 +64,7 @@ namespace AutomationTestStore.Pages
         public IWebElement FindElement(By locator)
         {
             WaitForLoad();
-            IWebElement element = FluentWaitForElement(locator, TimeSpan.FromSeconds(GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND), TimeSpan.FromMilliseconds(GeneralContants.TIME_TO_POLLING_INTERVAL_IN_MILLISECONDS));
+            IWebElement element = FluentWaitForElement(locator, TimeSpan.FromSeconds(GeneralConstants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND), TimeSpan.FromMilliseconds(GeneralConstants.TIME_TO_POLLING_INTERVAL_IN_MILLISECONDS));
             ScrollIntoElementByJS(element);
             return element;
         }
@@ -76,7 +77,7 @@ namespace AutomationTestStore.Pages
         public IWebElement FindElement(By locator, TimeSpan timeSpan)
         {
             WaitForLoad();
-            IWebElement element = FluentWaitForElement(locator, timeSpan, TimeSpan.FromMilliseconds(GeneralContants.TIME_TO_POLLING_INTERVAL_IN_MILLISECONDS));
+            IWebElement element = FluentWaitForElement(locator, timeSpan, TimeSpan.FromMilliseconds(GeneralConstants.TIME_TO_POLLING_INTERVAL_IN_MILLISECONDS));
             ScrollIntoElementByJS(element);
             return element;
         }
@@ -140,7 +141,7 @@ namespace AutomationTestStore.Pages
         public void WaitForLoad()
         {
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, GeneralContants.TIME_TO_WAIT_FOR_WEB_LOADING_IN_SECOND));
+            WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, GeneralConstants.TIME_TO_WAIT_FOR_WEB_LOADING_IN_SECOND));
             wait.Until(wd => js.ExecuteScript("return document.readyState").ToString().Trim() == "complete");
         }
 
@@ -242,16 +243,16 @@ namespace AutomationTestStore.Pages
         /// </summary>
         /// <param name="locator"></param>
         /// <returns></returns>
-        public string GetText(By locator, int timesoutMS = 10000)
+        public string GetText(By locator, int timesoutMS = 30000)
         {
-            IWebElement element = FindElement(locator, TimeSpan.FromSeconds(GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND));
-            string text = element.Text;
+            string text = FindElement(locator).Text;
             var timer = new Stopwatch();
             timer.Start();
-            while (timer.ElapsedMilliseconds < timesoutMS && String.IsNullOrEmpty(text))
+            while (timer.ElapsedMilliseconds < timesoutMS && String.IsNullOrEmpty(FindElement(locator).Text))
             {
-                text = FindElement(locator, TimeSpan.FromSeconds(GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND)).Text;
-                break;
+                text = FindElement(locator).Text;
+                if(!String.IsNullOrEmpty(text))
+                    break;
             }
             timer.Stop();
             return text;
@@ -264,7 +265,6 @@ namespace AutomationTestStore.Pages
         public void HoverOnElement(By locator)
         {
             Actions actions = new Actions(driver);
-
             actions.MoveToElement(FindElement(locator)).Perform();
         }
 
@@ -278,6 +278,24 @@ namespace AutomationTestStore.Pages
             try
             {
                 IWebElement element = FindElement(locator);
+                return element.Displayed && element.Enabled;
+            }
+            catch (WebDriverException)
+            {
+                return false;
+            }
+        }
+
+        // <summary>
+        /// Check element is displayed and enabled with timeSpan
+        /// </summary>
+        /// <param name="locator"></param>
+        /// <returns></returns>
+        public bool IsDisplayed(By locator, TimeSpan timeSpan)
+        {
+            try
+            {
+                IWebElement element = FindElement(locator, timeSpan);
                 return element.Displayed && element.Enabled;
             }
             catch (WebDriverException)
@@ -365,6 +383,19 @@ namespace AutomationTestStore.Pages
         public void HoverOnAnItem(string item)
         {
             HoverOnElement(CategoryMenu(item));
+            while (IsDisplayed(DropdownCart(), TimeSpan.FromSeconds(GeneralConstants.TIME_TO_CHECKING_POPUP_CART_IN_SECOND)))
+            {
+                RefreshPage();
+                HoverOnElement(CategoryMenu(item));
+            }
+        }
+
+        /// <summary>
+        /// Refresh page
+        /// </summary>
+        public void RefreshPage()
+        {
+            driver.Navigate().Refresh();
         }
 
         /// <summary>

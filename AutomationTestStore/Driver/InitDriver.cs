@@ -11,6 +11,7 @@ using WebDriverManager;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System.Diagnostics;
 
 namespace AutomationTestStore.Driver
 {
@@ -49,6 +50,41 @@ namespace AutomationTestStore.Driver
         public void TearDown()
         {
             driver.Quit();
+        }
+
+        [AfterTestRun]
+        public static void AfterTestRun()
+        {
+            CloseChromeDriverProcesses();
+        }
+
+        private static void CloseChromeDriverProcesses()
+        {
+            var chromeDriverProcesses = Process.GetProcesses().Where(pr => pr.ProcessName == "chromedriver");
+            var geckoDriverProcesses = Process.GetProcesses().Where(pr => pr.ProcessName == "geckodriver");
+
+            switch (JSONReader.GetBrowserFromJSON())
+            {
+                case "firefox":
+                    if ( geckoDriverProcesses.Count() == 0)
+                        return;
+
+                    foreach (var process in geckoDriverProcesses)
+                    {
+                        process.Kill();
+                    }
+                    break;
+
+                case "chrome":
+                    if (chromeDriverProcesses.Count() == 0)
+                        return;
+
+                    foreach (var process in chromeDriverProcesses)
+                    {
+                        process.Kill();
+                    }
+                    break;
+            }
         }
     }
 }

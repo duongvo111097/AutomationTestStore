@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace AutomationTestStore.Contants
 {
-    internal static class GeneralContants
+    internal static class GeneralConstants
     {
         public static string? ROOT_PATH = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName ;
         public static string CONFIGURATION_PATH = Path.Combine(ROOT_PATH, FolderContants.CONFIGURATOIN_FOLDER);
         public static string CONFIGURATION_FILE_PATH = Path.Combine(CONFIGURATION_PATH, FileContants.CONFIGURATION_FILE);
         public static int TIME_TO_WAIT_FOR_WEB_LOADING_IN_SECOND = 15;
-        public static int TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND = 15;
+        public static int TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND = 60;
+        public static int TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_MILLISECONDS = 60000;
         public static int TIME_TO_POLLING_INTERVAL_IN_MILLISECONDS = 500;
+        public static int TIME_TO_CHECKING_POPUP_CART_IN_SECOND = 3;
     }
 
     internal static class FolderContants
