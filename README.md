@@ -65,6 +65,23 @@ Must download install as below:
    ```
 
 
+## How to switch to run on Chrome or Firefox?
+Following the path as below, you can change between 'chrome' or 'firefox' to run.
+   ```sh
+   Config/Configuration.json
+   ```
+
+## How to run the test?
+### Run by VS 2022
+After VS 2022 build successfully, you can run the test in Test Explorer window.
+
+### Commandline
+You go to the AutomationTestStore.sln, open the cmd and type as below
+   ```sh
+   dotnet test
+   ```
+
+
 <!-- CONTACT -->
 ## Contact
 
