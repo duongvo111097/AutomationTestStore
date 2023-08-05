@@ -95,6 +95,7 @@ namespace AutomationTestStore.StepDefinitions
             detailedInformationPage.VerifyAddedItemNameToCartBeingCorrectly(itemName);
             detailedInformationPage.VerifyAddedItemPriceToCartBeingCorrectly(itemPrice);
             detailedInformationPage.VerifyAddedItemTotalPriceToCartBeingCorrectly(itemPrice);
+            detailedInformationPage.VerifyTotalPriceBeingCalculatedCorectly();
         }
 
     }

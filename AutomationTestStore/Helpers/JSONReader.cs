@@ -29,7 +29,7 @@ namespace AutomationTestStore.Helpers
         /// <returns></returns>
         public static string GetBrowserFromJSON()
         {
-            string browser = GetConfigure(GeneralContants.CONFIGURATION_FILE_PATH).Browser;
+            string browser = GetConfigure(GeneralConstants.CONFIGURATION_FILE_PATH).Browser;
             return String.IsNullOrEmpty(browser) ? "" : browser;
         }
 
@@ -39,7 +39,7 @@ namespace AutomationTestStore.Helpers
         /// <returns></returns>
         public static string GetUrlFromJSON()
         {
-            string url = GetConfigure(GeneralContants.CONFIGURATION_FILE_PATH).URL;
+            string url = GetConfigure(GeneralConstants.CONFIGURATION_FILE_PATH).URL;
             return String.IsNullOrEmpty(url) ? "" : url; ;
         }
     }

@@ -27,7 +27,7 @@ namespace AutomationTestStore.Pages
         #region Locators
         public By ItemName() { return By.ClassName("bgnone"); }
         public By ItemPrice() { return By.ClassName("productfilneprice"); }
-        public By TotalPrice() { return By.ClassName("total-price"); }
+        public By TotalPrice() { return By.XPath("//label[contains(text(),'Total Price')]//span[@class='total-price']"); }
         public By ProductQuantity() { return By.Id("product_quantity"); }
         #endregion
 
@@ -38,7 +38,7 @@ namespace AutomationTestStore.Pages
         /// <param name="expected"></param>
         public void VerifyAddedItemNameToCartBeingCorrectly(string expected)
         {
-            string actual = GetText(ItemName(), GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND).Trim();
+            string actual = GetText(ItemName(), GeneralConstants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_MILLISECONDS).Trim();
             Assert.True(actual == expected, "The added item '{0}' name is not match with the item '{1}' name in detailed informatoin page", expected, actual);
         }
 
@@ -48,7 +48,7 @@ namespace AutomationTestStore.Pages
         /// <param name="expected"></param>
         public void VerifyAddedItemPriceToCartBeingCorrectly(string expected)
         {
-            string actual = GetText(ItemPrice(), GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND).Trim();
+            string actual = GetText(ItemPrice(), GeneralConstants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_MILLISECONDS).Trim();
             Assert.True(actual == expected, "The added item '{0}' price is not match with the item '{1}' price in detailed informatoin page", expected, actual);
         }
 
@@ -58,7 +58,7 @@ namespace AutomationTestStore.Pages
         /// <param name="expected"></param>
         public void VerifyAddedItemTotalPriceToCartBeingCorrectly(string expected)
         {
-            string actual = GetText(TotalPrice(), GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND).Trim();
+            string actual = GetText(TotalPrice(), GeneralConstants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_MILLISECONDS).Trim();
             Assert.True(actual == expected, "The added item '{0}' price is not match with the item '{1}' totalprice in detailed informatoin page", expected, actual);
         }
 
@@ -69,7 +69,7 @@ namespace AutomationTestStore.Pages
         public void VerifyTotalPriceBeingCalculatedCorectly()
         {
             float totalPrice = float.Parse(ExtractFloatNumberFromString(GetText(TotalPrice()).Trim()));
-            int productQuantity = int.Parse(GetText(ProductQuantity()));
+            int productQuantity = int.Parse(GetAttribute("value", ProductQuantity()));
             float calculatedPrice = totalPrice * productQuantity;
             Assert.True(totalPrice == calculatedPrice, "The total price {0} is not calculated corresponding with quantity {1} correctly", totalPrice, calculatedPrice);
         }
