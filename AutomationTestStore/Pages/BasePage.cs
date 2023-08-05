@@ -244,13 +244,13 @@ namespace AutomationTestStore.Pages
         /// <returns></returns>
         public string GetText(By locator, int timesoutMS = 10000)
         {
-            IWebElement element = FindElement(locator, TimeSpan.FromSeconds(10));
+            IWebElement element = FindElement(locator, TimeSpan.FromSeconds(GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND));
             string text = element.Text;
             var timer = new Stopwatch();
             timer.Start();
             while (timer.ElapsedMilliseconds < timesoutMS && String.IsNullOrEmpty(text))
             {
-                text = FindElement(locator, TimeSpan.FromSeconds(10)).Text;
+                text = FindElement(locator, TimeSpan.FromSeconds(GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND)).Text;
                 break;
             }
             timer.Stop();

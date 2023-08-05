@@ -41,7 +41,7 @@ namespace AutomationTestStore.StepDefinitions
         [Then(@"I can see the message ""([^""]*)"" in the home page")]
         public void ThenICanSeeTheMessageInTheHomePage(string welcomeMsg)
         {
-            homePage.VerifyWelcomeMsgInHomePageIsDisplayed(welcomeMsg);
+            homePage.VerifyWelcomeMsgInHomePageBeingDisplayed(welcomeMsg);
         }
 
         [Then(@"I can hover my mouse to ""([^""]*)"" menu")]
