@@ -251,7 +251,8 @@ namespace AutomationTestStore.Pages
             while (timer.ElapsedMilliseconds < timesoutMS && String.IsNullOrEmpty(text))
             {
                 text = FindElement(locator, TimeSpan.FromSeconds(GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND)).Text;
-                break;
+                if(!String.IsNullOrEmpty(text))
+                    break;
             }
             timer.Stop();
             return text;

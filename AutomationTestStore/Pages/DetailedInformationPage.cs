@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using AutomationTestStore.Contants;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace AutomationTestStore.Pages
         /// <param name="expected"></param>
         public void VerifyAddedItemNameToCartBeingCorrectly(string expected)
         {
-            string actual = GetText(ItemName(), 200000).Trim();
+            string actual = GetText(ItemName(), GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND).Trim();
             Assert.True(actual == expected, "The added item '{0}' name is not match with the item '{1}' name in detailed informatoin page", expected, actual);
         }
 
@@ -47,7 +48,7 @@ namespace AutomationTestStore.Pages
         /// <param name="expected"></param>
         public void VerifyAddedItemPriceToCartBeingCorrectly(string expected)
         {
-            string actual = GetText(ItemPrice(), 20000).Trim();
+            string actual = GetText(ItemPrice(), GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND).Trim();
             Assert.True(actual == expected, "The added item '{0}' price is not match with the item '{1}' price in detailed informatoin page", expected, actual);
         }
 
@@ -57,7 +58,7 @@ namespace AutomationTestStore.Pages
         /// <param name="expected"></param>
         public void VerifyAddedItemTotalPriceToCartBeingCorrectly(string expected)
         {
-            string actual = GetText(TotalPrice(), 20000).Trim();
+            string actual = GetText(TotalPrice(), GeneralContants.TIME_TO_WAIT_FOR_ELEMENT_LOADING_IN_SECOND).Trim();
             Assert.True(actual == expected, "The added item '{0}' price is not match with the item '{1}' totalprice in detailed informatoin page", expected, actual);
         }
 
